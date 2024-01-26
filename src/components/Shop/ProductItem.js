@@ -8,7 +8,7 @@ const ProductItem = (props) => {
   const dispatch = useDispatch();
 
   const addItemToCartHandler = () => {
-    dispatch(cartAction.addItem({ id: id+Math.random(), title, price, description, quantity: 1, total: price }))
+    dispatch(cartAction.addItem({ id, title, price, description, quantity: 1, total: price }))
   }
 
   return (
