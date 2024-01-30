@@ -1,6 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialCartState = { cartItems: [], totalQuantity: 0 };
+async function getCartItems() {
+  const res = await fetch(`https://expensetracker-6f9fd-default-rtdb.firebaseio.com/cart.json`);
+  const data = await res.json();
+  return data;
+}
+
+const items = await getCartItems();
+
+const initialCartState = { cartItems: items.cartItems, totalQuantity: items.totalQuantity };
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -25,6 +33,10 @@ const cartSlice = createSlice({
             if(existingItem.quantity === 0) {
                 state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
             }
+        },
+        getItems(state, action) {
+            state.cartItems = action.payload.cartItems;
+            state.totalQuantity = action.payload.totalQuantity;
         }
     }
 })
